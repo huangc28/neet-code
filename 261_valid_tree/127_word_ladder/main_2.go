@@ -11,6 +11,20 @@ create pattern adjacency list:
 		"d*t": [dot]
 		"do*": [dot]
 	}
+
+time complexity
+
+  - iterate each word in list n
+
+  - form each pattern in a word m
+
+  - form adjacency list n * m
+
+  - length of q "n^2" for each word, we need to form pattern to retrieve neighbor strings from queue "m" (n^2) * m
+
+    (n * m) ---> number of string in queue
+    m ---> number of times to iterate for each string in qeueu
+    m * (n * m) ---> m^2 * n
 */
 func ladderLength2(beginWord string, endWord string, wordList []string) int {
 	if !Contains(endWord, wordList) {
