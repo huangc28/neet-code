@@ -1,6 +1,6 @@
 package main
 
-import "log"
+import "sort"
 
 /*
 [100,4,200,1,3,2]
@@ -10,36 +10,28 @@ import "log"
 如果是 start of the sequence 我們就建立一個新的 sequence.
 */
 func longestConsecutive(nums []int) int {
-	numberMap := make(map[int]bool)
-	for i := 0; i < len(nums); i++ {
-		numberMap[nums[i]] = true
-	}
+	sort.Slice(nums, func(i, j int) bool {
+		return nums[i] < nums[j]
+	})
 
-	log.Printf("debug 1 %v", numberMap)
-
-	seqs := make([][]int, 0)
-
-	for j := 0; j < len(nums); j++ {
-		num := nums[j]
-		leftNeighbor := num - 1
-		log.Printf("debug 2 %v", leftNeighbor)
-		if _, hasLeftNeibor := numberMap[leftNeighbor]; hasLeftNeibor {
-			continue
+	currStreak, maxStreak := 1, 0
+	for i := 1; i < len(nums); i++ {
+		if nums[i]-1 == nums[i-1] {
+			currStreak++
+		} else if nums[i] == nums[i-1] {
+			// ignore
 		} else {
-			log.Printf("debug 3 %v", num)
-			seq := make([]int, 0)
-			seq = append(seq, num)
-
-			nextSeq := num + 1
-			for numberMap[nextSeq] {
-				seq = append(seq, nextSeq)
-				nextSeq += 1
-			}
-			seqs = append(seqs, seq)
+			maxStreak = max(currStreak, maxStreak)
+			currStreak = 1
 		}
 	}
 
-	log.Printf("seqs %v", seqs)
-
-	return 0
+	// ..., 101, 102
+	return max(maxStreak, currStreak)
+}
+func max(i, j int) int {
+	if i > j {
+		return i
+	}
+	return j
 }
