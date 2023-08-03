@@ -34,7 +34,7 @@ func minWindow(s string, t string) string {
 		}
 
 		sCount[rightChar] += 1
-		if sCount[rightChar] != 0 && sCount[rightChar] == tCount[rightChar] {
+		if sCount[rightChar] == tCount[rightChar] {
 			matches++
 		}
 
