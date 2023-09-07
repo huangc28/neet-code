@@ -1,66 +1,88 @@
 package main
 
-import "log"
-
-type ListNode struct {
-	Val  int
-	Next *ListNode
-}
-
-/**
- * Definition for singly-linked list.
- * type ListNode struct {
- *     Val int
- *     Next *ListNode
- * }
- */
 func reorderList(head *ListNode) {
-	if head == nil {
+	length := countLength(head)
+
+	if length == 1 {
 		return
 	}
 
-	log.Printf("debug 1 %v ", head)
-	posNodeMap, length := getPosNodeMap(head)
+	half := length / 2
 
-	log.Printf("debug 2 %v %v", head, length)
-	i, j := 0, length
-
+	// This would be our first list
 	curr := head
-
-	log.Printf("debug 3 %v ", posNodeMap[length])
-	head.Next = posNodeMap[length]
-	head = head.Next
-
-	i++
-	j--
-
-	//log.Printf("debug 1 %v %v", i, j)
-	//log.Printf("debug 2 %v ", posNodeMap)
-
-	for i <= j {
-
-		//log.Printf("debug 3 %v ", head)
-
-		head.Next = posNodeMap[i]
-
-		head = head.Next
-		head.Next = posNodeMap[j]
-		head = head.Next
-		i++
-		j--
+	for i := 1; i < half; i++ {
+		curr = curr.Next
 	}
 
-	head = curr
+	// This would be our second list
+	sec := curr.Next
+
+	// cut off the link between first and sec list
+	curr.Next = nil
+
+	// reverse the sec list
+	sec = reverse(sec)
+
+	// combine head and sec to new list.
+	var (
+		newList *ListNode
+		newHead *ListNode
+	)
+
+	newHead = newList
+
+	for head != nil && sec != nil {
+		if newList == nil {
+			newList = head
+			newHead = head
+		} else {
+			newList.Next = head
+			newList = newList.Next
+		}
+
+		head = head.Next
+
+		newList.Next = sec
+		newList = newList.Next
+		sec = sec.Next
+	}
+
+	if head != nil {
+		newList.Next = head
+		newList = newList.Next
+	}
+
+	if sec != nil {
+		newList.Next = sec
+		newList = newList.Next
+	}
+
+	head = newHead
 }
 
-func getPosNodeMap(head *ListNode) (map[int]*ListNode, int) {
+func reverse(head *ListNode) *ListNode {
+	prev := (*ListNode)(nil)
 	curr := head
-	posNodeMap := make(map[int]*ListNode)
-	pos := 0
+
 	for curr != nil {
-		posNodeMap[pos] = curr
-		curr = curr.Next
-		pos++
+		next := curr.Next
+		curr.Next = prev
+		prev = curr
+		curr = next
 	}
-	return posNodeMap, pos - 1
+
+	return prev
+}
+
+func countLength(head *ListNode) int {
+	curr := head
+	count := 0
+
+	for curr != nil {
+		curr = curr.Next
+		count++
+	}
+
+	return count
 }

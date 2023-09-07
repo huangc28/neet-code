@@ -48,3 +48,40 @@ func findMidIdx(arr []int, v int) int {
 
 	return -1
 }
+
+func buildTree_2(preorder []int, inorder []int) *TreeNode {
+	// we use preorder's first element as the root element.
+	root := &TreeNode{}
+	root.Val = preorder[0]
+
+	// we find the index of first element value in inorder arr.
+	// split, left and right
+	inLeft, inRight := findAndSplit(root.Val, inorder)
+
+	// based on the length of left and right slice from in-order arr,
+	// we slice left / right with the same length from preorder arr
+	// to construct subtree nodes
+	if len(inLeft) == 0 {
+		root.Left = nil
+	} else {
+		root.Left = buildTree(preorder[1:1+len(inLeft)], inLeft)
+	}
+
+	if len(inRight) == 0 {
+		root.Right = nil
+	} else {
+		root.Right = buildTree(preorder[1+len(inLeft):], inRight)
+	}
+
+	return root
+}
+
+func findAndSplit(v int, inorder []int) ([]int, []int) {
+	idx := 0
+	for ; idx < len(inorder); idx++ {
+		if inorder[idx] == v {
+			break
+		}
+	}
+	return inorder[:idx], inorder[idx+1:]
+}

@@ -16,8 +16,8 @@ func orangesRotting(grid [][]int) int {
 		}
 	}
 
-	min := -1
-	for len(q) > 0 {
+	min := 0
+	for len(q) > 0 && fresh > 0 {
 		qLen := len(q)
 		for i := 0; i < qLen; i++ {
 			node := q[0]
@@ -35,12 +35,8 @@ func orangesRotting(grid [][]int) int {
 		min++
 	}
 
-	if min == -1 {
-		return 0
-	}
-
-	if fresh > 0 {
-		return -1
+	if fresh == 0 {
+		return min
 	}
 
 	return min

@@ -17,35 +17,32 @@ queue:
 ~1, ~2, ~3, ~5, 4
 */
 func rightSideView(root *TreeNode) []int {
-	res := make([]int, 0)
-
 	if root == nil {
-		return res
+		return []int{}
 	}
 
-	queue := make([]*TreeNode, 0)
-	queue = append(queue, root)
-	for len(queue) > 0 {
-		canViewNode := queue[len(queue)-1]
-		res = append(res, canViewNode.Val)
+	q := make([]*TreeNode, 0)
+	q = append(q, root)
+	ans := make([]int, 0)
 
-		// append subtree to queue from left to right
-		newLevelNodes := make([]*TreeNode, 0)
-		for len(queue) > 0 {
-			node := queue[0]
-			queue = queue[1:]
+	for len(q) > 0 {
+		qLen := len(q)
+		ans = append(ans, q[len(q)-1].Val)
 
+		for i := 0; i < qLen; i++ {
+			node := q[0]
+			q = q[1:]
+
+			// If node has left child, push to q
 			if node.Left != nil {
-				newLevelNodes = append(newLevelNodes, node.Left)
+				q = append(q, node.Left)
 			}
-
+			// If node has right child, push to q
 			if node.Right != nil {
-				newLevelNodes = append(newLevelNodes, node.Right)
+				q = append(q, node.Right)
 			}
 		}
-
-		queue = newLevelNodes
 	}
 
-	return res
+	return ans
 }
