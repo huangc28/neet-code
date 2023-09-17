@@ -66,3 +66,13 @@ func canJump_2(nums []int) bool {
 	}
 	return dp[0]
 }
+
+func canJump_3(nums []int) bool {
+	goal := len(nums) - 1
+	for i := len(nums) - 2; i >= 0; i-- {
+		if i+nums[i] >= len(nums)-1 {
+			goal = i
+		}
+	}
+	return goal == 0
+}
