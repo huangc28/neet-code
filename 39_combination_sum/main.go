@@ -60,3 +60,44 @@ func combinationSum_2(candidates []int, target int) [][]int {
 
 	return ans
 }
+
+/*
+[2,3,6,7] target=7
+
+
+       f(0,[2])
+ f(0,[2,2])
+ f(0,[2,2,2]) f(1,[2,2,3]) f(2,[2,2,6]) f(2,[2,2,7])
+
+
+*/
+
+func combinationSum_3(candidates []int, target int) [][]int {
+	comb := make([]int, 0)
+	ans := make([][]int, 0)
+
+	var dfs func(i int, sum int, comb []int)
+	dfs = func(i int, sum int, comb []int) {
+		if sum == target {
+			ncomb := make([]int, len(comb))
+			copy(ncomb, comb)
+			ans = append(ans, ncomb)
+			return
+		}
+
+		if i >= len(candidates) {
+			return
+		}
+
+		if sum+candidates[i] <= target {
+			comb = append(comb, candidates[i])
+			dfs(i, sum+candidates[i], comb)
+			comb = comb[:len(comb)-1]
+		}
+
+		dfs(i+1, sum, comb)
+	}
+
+	dfs(0, 0, comb)
+	return ans
+}
