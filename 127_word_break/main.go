@@ -20,6 +20,7 @@ type WordInfo struct {
 func ladderLength(beginWord string, endWord string, wordList []string) int {
 	wordList = append(wordList, beginWord)
 	adjMap := make(map[string][]string)
+
 	for i, word := range wordList {
 		pattern := word[:i] + "*" + word[i+1:]
 		adjMap[pattern] = append(adjMap[pattern], word)
@@ -38,7 +39,6 @@ func ladderLength(beginWord string, endWord string, wordList []string) int {
 			if wordInfo.Word == endWord {
 				return wordInfo.Dis
 			}
-
 			visited[wordInfo.Word] = true
 
 			for i := 0; i < len(wordInfo.Word); i++ { // O(m) number of characters in word
