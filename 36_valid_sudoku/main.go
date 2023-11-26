@@ -6,27 +6,27 @@ func isValidSudoku(board [][]byte) bool {
 	dupMap := make(map[string]bool)
 	for row := 0; row < len(board); row++ {
 		for col := 0; col < len(board[row]); col++ {
-			val := string(board[row][col])
-			if val == "." {
+			if board[row][col] == '.' {
 				continue
 			}
-			_, valInRow := dupMap[fmt.Sprintf("row-%d-val-%s", row, val)]
-			_, valInCol := dupMap[fmt.Sprintf("col-%d-val-%s", col, val)]
 
-			if valInRow || valInCol {
+			currVal := int(board[row][col])
+
+			rowKey := fmt.Sprintf("row-%d-%d", row, currVal)
+			colKey := fmt.Sprintf("col-%d-%d", col, currVal)
+
+			// locate subboard
+			sbRow := row / 3
+			sbCol := col / 3
+			sbKey := fmt.Sprintf("sb-%d-%d-%d", sbRow, sbCol, currVal)
+
+			if dupMap[rowKey] || dupMap[colKey] || dupMap[sbKey] {
 				return false
 			}
 
-			dupMap[fmt.Sprintf("row-%d-val-%s", row, val)] = true
-			dupMap[fmt.Sprintf("col-%d-val-%s", col, val)] = true
-
-			subBoardY := row / 3
-			subBoardX := col / 3
-			_, valInSubBoard := dupMap[fmt.Sprintf("sub-%d-%d-val-%s", subBoardY, subBoardX, val)]
-			if valInSubBoard {
-				return false
-			}
-			dupMap[fmt.Sprintf("sub-%d-%d-val-%s", subBoardY, subBoardX, val)] = true
+			dupMap[rowKey] = true
+			dupMap[colKey] = true
+			dupMap[sbKey] = true
 		}
 	}
 	return true

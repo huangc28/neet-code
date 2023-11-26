@@ -12,9 +12,8 @@ func productExceptSelf(nums []int) []int {
 	// calculate suffix at each position
 	prevSuffix := 1
 	for i := len(nums) - 2; i >= 0; i-- {
-		currSuffix := nums[i+1] * prevSuffix
-		ans[i] = ans[i] * currSuffix
-		prevSuffix = currSuffix
+		prevSuffix := nums[i+1] * prevSuffix
+		ans[i] = ans[i] * prevSuffix
 	}
 
 	return ans
