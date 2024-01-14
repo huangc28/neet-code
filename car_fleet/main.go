@@ -1,9 +1,5 @@
 package main
 
-import (
-	"sort"
-)
-
 /*
 	target = 12,
 	position = [10,8,0,5,3],
@@ -24,7 +20,7 @@ type Car struct {
 	Position int
 }
 
-func carFleet_bad(target int, position []int, speed []int) int {
+func carFleet_1(target int, position []int, speed []int) int {
 	stack := make([]Car, 0, len(position))
 
 	for i := 0; i < len(position); i++ {
@@ -80,37 +76,4 @@ func min(i, j int) int {
 		return i
 	}
 	return j
-}
-
-func carFleet(target int, position []int, speed []int) int {
-	cars := make([]Car, len(position))
-	stack := make([]Car, 0, len(position))
-
-	for idx := range cars {
-		cars[idx] = Car{speed[idx], position[idx]}
-	}
-
-	sort.Slice(cars, func(i, j int) bool {
-		return cars[i].Position < cars[j].Position
-	})
-
-	for i := len(cars) - 1; i >= 0; i-- {
-		car := cars[i]
-		stack = append(stack, car)
-		if len(stack) > 1 {
-			first := stack[len(stack)-1]
-			second := stack[len(stack)-2]
-
-			firstImeToEnd := float32(target-first.Position) / float32(first.Speed)
-			secondTimeToEnd := float32(target-second.Position) / float32(second.Speed)
-
-			// the front car reaches the end faster than the later car.
-			if firstImeToEnd <= secondTimeToEnd {
-				stack = stack[:len(stack)-1]
-			}
-		}
-
-	}
-
-	return len(stack)
 }
