@@ -1,5 +1,7 @@
 package main
 
+import "log"
+
 type HeightInfo struct {
 	Height int
 	Index  int
@@ -43,6 +45,8 @@ func largestRectangleArea(heights []int) int {
 			Index:  topNode.Index,
 		})
 	}
+
+	log.Printf("debug stack %v", stack)
 
 	for j := 0; j < len(stack); j++ {
 		area := (len(heights) - stack[j].Index) * stack[j].Height
