@@ -23,8 +23,7 @@ func characterReplacement(s string, k int) int {
 		numOfMostFreqChar := findMaxInMap(charFreqMap)
 		if ((right+1)-left)-numOfMostFreqChar > k {
 			left += 1
-			charFreqMap = map[byte]int{}
-			continue
+			charFreqMap[s[left]] -= 1
 		}
 
 		maxFreq = max(maxFreq, (right+1)-left)
