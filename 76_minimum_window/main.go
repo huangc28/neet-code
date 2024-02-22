@@ -54,19 +54,16 @@ func minWindow(s string, t string) string {
 
 		// move left pointer to right until matches != len(s)
 		for matches == len(tCount) {
+			minSub = minStr(minSub, s[left:right+1])
 			leftChar := s[left]
 
 			if _, exists := tCount[leftChar]; exists {
 				sCount[leftChar]--
 				if sCount[leftChar] < tCount[leftChar] {
 					matches--
-				} else {
-					// skip, leftChar still have enough count for `t`
-					// don't need to decrement matches
 				}
 			}
 
-			minSub = minStr(minSub, s[left:right+1])
 			left++
 		}
 	}
