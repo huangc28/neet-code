@@ -9,6 +9,9 @@ package main
 - 把當前 root diameter 跟 當前 max diameter 作比較。哪個比較長？update 當前 max diameter。
 
 return 時，回傳 larger diameter between left and right diameter. so that parent node get the largest side diameter.
+
+Space: O(height of tree)
+Time: O(n) // number of node
 */
 
 func diameterOfBinaryTree_2(root *TreeNode) int {
