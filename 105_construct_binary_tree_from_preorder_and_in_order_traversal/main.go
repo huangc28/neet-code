@@ -26,5 +26,31 @@ in[1] 是 pre[1] 的 child
 這邊可以知道 pre 會比 in 慢一個 step。當 pre[n] == in[n-1] 的話代表我們掉頭了。set currNode = in[n],  currNode.Right = pre[n+1],
 */
 func buildTree(preorder []int, inorder []int) *TreeNode {
-	return nil
+	// If no root or no children, we can not create subtree
+	if len(preorder) == 0 || len(inorder) == 0 {
+		return nil
+	}
+
+	root := &TreeNode{}
+	root.Val = preorder[0]
+
+	rootIdx := findRootIdx(root.Val, inorder)
+	leftIn := inorder[:rootIdx]
+	rightIn := inorder[rootIdx+1:]
+
+	root.Left = buildTree(preorder[1:1+len(leftIn)], leftIn)
+	root.Right = buildTree(preorder[1+len(leftIn):], rightIn)
+
+	return root
+}
+
+func findRootIdx(val int, inorder []int) int {
+	idx := 0
+
+	for ; idx < len(inorder); idx++ {
+		if inorder[idx] == val {
+			break
+		}
+	}
+	return idx
 }
