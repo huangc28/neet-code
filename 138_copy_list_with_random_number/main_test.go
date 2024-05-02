@@ -26,6 +26,5 @@ func TestCase1(t *testing.T) {
 
 	head := n1
 
-	copyRandomList(head)
-
+	copyRandomList2(head)
 }
