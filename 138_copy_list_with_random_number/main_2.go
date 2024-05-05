@@ -24,7 +24,6 @@ func copyRandomList2(head *Node) *Node {
 		if origHead2.Random != nil {
 			randNewNode := nodeMap[origHead2.Random]
 			newHead2.Random = randNewNode
-
 		}
 
 		origHead2 = origHead2.Next
