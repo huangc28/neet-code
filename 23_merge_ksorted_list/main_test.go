@@ -15,3 +15,5 @@ func TestCase1(t *testing.T) {
 	arr = arr[:1]
 	log.Printf("debug arr %v", arr[1])
 }
+
+func TestMergeKsortedLists3(t *testing.T) {}
